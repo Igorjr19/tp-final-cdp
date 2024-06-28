@@ -14,7 +14,10 @@ public class Client {
             DataInputStream inputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())
         ) {
-            // Send message to server
+            String argsString = String.join(" ", args);
+            outputStream.writeUTF(argsString);
+            String response = inputStream.readUTF();
+            System.out.println("Server Response: " + response);
         } catch (IOException e) {
             e.printStackTrace();
         }
