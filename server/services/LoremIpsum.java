@@ -72,6 +72,7 @@ public class LoremIpsum {
             }
         }
         generatedText = loremIpsumText.toString();
+        this.writeToFile("./out/lorem-ipsum.txt");
         return generatedText;
     }
 
