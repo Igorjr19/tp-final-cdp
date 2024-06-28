@@ -30,7 +30,7 @@ public class CPF {
         return cpf.equals(cpf.substring(0, 9) + checkDigit1 + checkDigit2);
     }
 
-    public static String generateValidCPF() {
+    public String generateValidCPF() {
         Random random = new Random();
         int[] cpf = new int[11];
 
