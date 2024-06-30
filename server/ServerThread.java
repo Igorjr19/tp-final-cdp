@@ -54,19 +54,24 @@ public class ServerThread extends Thread {
         }
         Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         Compute compute = (Compute) registry.lookup("Compute"); 
+        System.out.println("Request received");
         System.out.println("Service: " + serviceName);
         System.out.println("Method: " + serviceMethod);
         for (String param : serviceParameters) {
             System.out.println("Parameter: " + param);
         }
+        System.out.println("\nCalling RMI server...");
         switch (serviceName) {
             case "cpf":
                 if (serviceMethod.equals("generate")) {
                     CpfTask task = new CpfTask("generate", "");
-                    compute.executeTask(task);
+                    String cpf = compute.executeTask(task);
+                    System.out.println("RMI response: " + cpf);
+                    outputStream.writeUTF(cpf);
                 } else if (serviceMethod.equals("validate")) {
                     CpfTask task = new CpfTask("validate", serviceParameters[0]);
                     String isValid = compute.executeTask(task);
+                    System.out.println("RMI response: " + isValid);
                     outputStream.writeUTF(isValid);
                 } else {
                     throw new IllegalArgumentException("Method not found");
@@ -76,10 +81,12 @@ public class ServerThread extends Thread {
                 if (serviceMethod.equals("encrypt")) {
                     CipherTask task = new CipherTask("encrypt", serviceParameters[0], serviceParameters[1]);
                     String encrypted = compute.executeTask(task);
+                    System.out.println("RMI response: " + encrypted);
                     outputStream.writeUTF(encrypted);
                 } else if (serviceMethod.equals("decrypt")) {
                     CipherTask task = new CipherTask("decrypt", serviceParameters[0], serviceParameters[1]);
                     String decrypted = compute.executeTask(task);
+                    System.out.println("RMI response: " + decrypted);
                     outputStream.writeUTF(decrypted);
                 } else {
                     throw new IllegalArgumentException("Method not found");
@@ -99,11 +106,13 @@ public class ServerThread extends Thread {
                 } else {
                     throw new IllegalArgumentException("Method not found");
                 }
+                System.out.println("RMI response: Lorem ipsum generated - file saved at '/out/lorem-ipsum.txt'");
                 outputStream.writeUTF("Lorem ipsum generated - file saved at '/out/lorem-ipsum.txt'");
                 break;
             case "randomColor":
                 RandomColorTask task = new RandomColorTask(serviceMethod, Integer.parseInt(serviceParameters[0]));
                 String result = compute.executeTask(task);
+                System.out.println("RMI response: " + result);
                 outputStream.writeUTF(result);
                 break;
             default:

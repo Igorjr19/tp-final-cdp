@@ -15,6 +15,7 @@ public class Client {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())
         ) {
             String argsString = String.join(" ", args);
+            System.out.println("Client Request: " + argsString);
             outputStream.writeUTF(argsString);
             String response = inputStream.readUTF();
             System.out.println("Server Response: " + response);
