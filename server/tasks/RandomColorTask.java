@@ -7,17 +7,17 @@ import server.services.CPF;
 import server.services.RandomColor;
 
 public class RandomColorTask implements Task<String>, Serializable {
-    private String color;
     private String method;
+    private int numberOfColors;
 
-    public RandomColorTask(String method, String color) {
+    public RandomColorTask(String method, int numberOfColors) {
         this.method = method;
-        this.color = color;
+        this.numberOfColors = numberOfColors;
     }
 
     @Override
     public String execute() {
-        RandomColor randomColorService = new RandomColor();
+        RandomColor randomColorService = new RandomColor(numberOfColors);
         if (method.equals("generate")) {
             randomColorService.generateRandomColorImage();
             return "Random color image generated - file saved at: './out/random-color.png'";

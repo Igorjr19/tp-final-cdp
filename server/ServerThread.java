@@ -102,7 +102,7 @@ public class ServerThread extends Thread {
                 outputStream.writeUTF("Lorem ipsum generated - file saved at '/out/lorem-ipsum.txt'");
                 break;
             case "randomColor":
-                RandomColorTask task = new RandomColorTask(serviceMethod, "");
+                RandomColorTask task = new RandomColorTask(serviceMethod, Integer.parseInt(serviceParameters[0]));
                 String result = compute.executeTask(task);
                 outputStream.writeUTF(result);
                 break;
